@@ -12,7 +12,7 @@ def args():
     arg.add_argument('-u', type=str, help='FreeIPA url')
     arg.add_argument('-l', type=str, help='FreeIPA login')
     arg.add_argument('-p', type=str, help='FreeIPA password')
-    arg.add_argument('-d', type=str, help='Search in dir')
+    arg.add_argument('-d', type=str, help='Search files in dir')
     argument = vars(arg.parse_args())
     return argument
 
@@ -104,7 +104,7 @@ def create_users(users, ldap_users):
     print(list_for_add_users)
     for i in list_for_add_users:
         for x in users:
-            if i == x['login']:  
+            if i == x['login']:
                 client.user_add(
                     username=i,
                     first_name=x['first_name'],
