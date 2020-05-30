@@ -1,0 +1,9 @@
+login: iivanov
+first_name: Иван
+last_name: Иванов
+params:
+  state: present
+  email: iivanov@mail.ru
+  discord_id: 1234567890
+groups:
+  - all
