@@ -2,7 +2,6 @@ import argparse
 import glob
 import urllib3
 import yaml
-import sys
 from python_freeipa import ClientLegacy
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -28,7 +27,7 @@ arguments = args()
 client = connect(arguments['u'], arguments['l'], arguments['p'])
 
 
-# --Парсинг yml файлов
+# --Parsing of yml/yaml files
 
 
 def parser_yml():
@@ -43,7 +42,7 @@ def parser_yml():
     return list_user_info
 
 
-# --Создание списка пользователей
+# --Create users list
 
 
 def list_ldap_users():
@@ -57,7 +56,7 @@ def list_ldap_users():
     return list_users_login
 
 
-# --Очистка списка ldap пользователей, и создание списка из их логинов и групп
+# --Create users and group list
 
 
 def list_ldap():
@@ -93,7 +92,7 @@ def list_ldap():
     return list_users
 
 
-# --Создание пользователя
+# --Create user in ldap
 
 
 def create_users(users, ldap_users):
@@ -101,11 +100,11 @@ def create_users(users, ldap_users):
     for login in users:
         list_users_login.append(login['login'])
     list_for_add_users = list(
-        set(list_users_login) - set(ldap_users))  # Создание списка из пользователей которых нет в ldap
+        set(list_users_login) - set(ldap_users))
     print(list_for_add_users)
     for i in list_for_add_users:
         for x in users:
-            if i == x['login']:  # Создание пользователя
+            if i == x['login']:  
                 client.user_add(
                     username=i,
                     first_name=x['first_name'],
@@ -122,7 +121,7 @@ def create_users(users, ldap_users):
                 None
 
 
-# --Добавление модификаций
+# --Add modifications for users
 
 
 def user_mod(users):
@@ -147,19 +146,19 @@ def user_mod(users):
             None
 
 
-# --Добавление пользователя в группы
+# --Add users in groups and remove users from groups
 
 
 def add_user_in_group(users, list_ldap):
     list_ldap_users = []
     list_users = []
-    for i in list(list_ldap):  # преобразование словаря к единому ввиду
+    for i in list(list_ldap):
         i['login'] = i.pop('uid')
         i['groups'] = i.pop('memberof_group')
         for z in i['login']:
             i['login'] = z
             list_ldap_users.append(i)
-    for i in users:  # преобразование словаря к единому ввиду
+    for i in users:
         del i['first_name']
         del i['last_name']
         del i['params']
@@ -167,16 +166,16 @@ def add_user_in_group(users, list_ldap):
     for i in list_ldap_users:
         for x in list_users:
             if i['login'] == x['login']:
-                list_groups = list(set(x['groups']) - set(i['groups']))  # группы которые есть в файлах но нет в ldap
-                list_ldap_groups = list(set(i['groups']) - set(x['groups']))  # группы которые есть в ldap но нет файлах
-                if list_groups:  # Добавление пользователя в группы
+                list_groups = list(set(x['groups']) - set(i['groups']))
+                list_ldap_groups = list(set(i['groups']) - set(x['groups']))
+                if list_groups:  # add users in group
                     for z in list_groups:
                         client.group_add_member(
                             users=i['login'],
                             group=z
                         )
                         print("User " + format(i['login'] + " was added to " + format(z)))
-                if list_ldap_groups:  # Удаление пользователя из групп
+                if list_ldap_groups:  # Remove users from groups
                     for z in list_ldap_groups:
                         client.group_remove_member(
                             users=x['login'],
@@ -185,7 +184,7 @@ def add_user_in_group(users, list_ldap):
                         print("User " + format(i['login'] + " was removed from " + format(z)))
 
 
-# Запуск функций
+# Run
 users = parser_yml()
 ldap_users = list_ldap_users()
 list_ldap = list_ldap()

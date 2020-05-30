@@ -13,7 +13,7 @@ groups:
   - all
 ```
 ##### How can i run it?
-##### You can run it the next command: ```python(3*) -u ipa.test.local -l admin -p qwerty -d ./```
+##### You can run it the next command: ```python(3.*) -u ipa.test.local -l admin -p qwerty -d ./```
 
 ##### What is '-d'? 
 ##### It is argument, which search  yml/yaml files in directory
