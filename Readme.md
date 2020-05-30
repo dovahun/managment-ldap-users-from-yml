@@ -3,8 +3,8 @@
 ##### For example:
 ```yaml
 login: iivanov
-f_name: Ivan
-l_name: Ivanov
+first_name: Ivan
+last_name: Ivanov
 params:
   state: present
   email: iivanov@gmail.com
