@@ -1,5 +1,5 @@
 ##### What about users files?
-##### create yml/yaml file with information about ldap-user
+##### create yaml file with information about ldap-user
 ##### For example:
 ```yaml
 login: iivanov
