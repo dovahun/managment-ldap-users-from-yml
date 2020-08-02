@@ -12,8 +12,7 @@ params:
 groups:
   - all
 ```
-##### How can i run it?
-##### You can run it the next command: ```python(3.*) -u ipa.test.local -l admin -p qwerty -d ./```
-
-##### What is '-d'? 
-##### It is argument, which search  yml/yaml files in directory
+##### 1) Use yml_combine.py for combined files
+##### 2) Run ldap.py with this command: ```python(3.*) --domain ipa.test.local -l admin -p qwerty -i yml_combine.yaml ```
+##### 3) check.py it's check validate for yaml file 
+##### 4) converFiles.py it's give information about users and put in file
